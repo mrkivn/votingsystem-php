@@ -53,6 +53,7 @@ ob_start();
             <p>No active polls at the moment.</p>
         <?php else: ?>
             <?php foreach ($polls as $pollId => $poll): ?>
+                <?php if (!is_array($poll)) continue; ?>
                 <?php $hasVoted = $pollsModel->hasVoted($pollId, $userId); ?>
                 <div class="card" style="<?php echo $hasVoted ? 'opacity: 0.8; background: #f9f9f9;' : ''; ?>">
                     <div style="display: flex; justify-content: space-between; align-items: start;">

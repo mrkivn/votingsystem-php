@@ -71,6 +71,7 @@ ob_start();
                 <p>No active polls.</p>
             <?php else: ?>
                 <?php foreach ($polls as $id => $poll): ?>
+                    <?php if (!is_array($poll)) continue; ?>
                     <div class="card">
                         <h3><?php echo htmlspecialchars($poll['title']); ?></h3>
                         <p style="margin-bottom: 15px; opacity: 0.7;"><?php echo htmlspecialchars($poll['description'] ?? ''); ?></p>
