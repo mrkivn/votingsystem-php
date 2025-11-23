@@ -1,0 +1,10 @@
+{
+    "name": "user/votingsystem",
+    "description": "PHP Voting System with Firebase (REST)",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    }
+}

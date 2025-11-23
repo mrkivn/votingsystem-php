@@ -1,0 +1,5 @@
+/vendor
+/node_modules
+.env
+firebase_credentials.json
+.vercel
