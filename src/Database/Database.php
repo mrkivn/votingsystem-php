@@ -13,7 +13,7 @@ class Database {
         $this->apiKey = 'AIzaSyCauRjj874eNbMhVUwXVPPfEpC8sEMsaZE';
         
         // Standard Firebase Realtime Database URL format
-        $this->baseUrl = "https://{$projectId}-default-rtdb.firebaseio.com";
+        $this->baseUrl = "https://voting-b791c-default-rtdb.asia-southeast1.firebasedatabase.app";
     }
 
     public static function getInstance() {
