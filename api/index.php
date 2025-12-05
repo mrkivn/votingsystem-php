@@ -1,5 +1,8 @@
 <?php
 
+// Load configuration (defines BASE_PATH and starts session)
+require_once __DIR__ . '/../config/config.php';
+
 // Manual Autoloader since we don't have Composer
 spl_autoload_register(function ($class) {
     // Project-specific namespace prefix

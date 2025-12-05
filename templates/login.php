@@ -12,9 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result['success']) {
         if ($_SESSION['role'] === 'admin') {
-            header('Location: /votingsystem/admin');
+            header('Location: ' . BASE_PATH . '/admin');
         } else {
-            header('Location: /votingsystem/dashboard');
+            header('Location: ' . BASE_PATH . '/dashboard');
         }
         exit;
     } else {
@@ -35,7 +35,7 @@ ob_start();
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="/votingsystem/">
+        <form method="POST" action="<?php echo BASE_PATH; ?>/">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" autocomplete="email" required>
@@ -92,7 +92,7 @@ ob_start();
         </script>
         
         <p style="margin-top: 20px; text-align: center;">
-            No ID? <a href="/votingsystem/register" class="highlight">Register here</a>
+            No ID? <a href="<?php echo BASE_PATH; ?>/register" class="highlight">Register here</a>
         </p>
     </div>
 </div>

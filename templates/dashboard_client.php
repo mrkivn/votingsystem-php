@@ -8,7 +8,7 @@ use Src\Models\User;
 
 $auth = new Auth();
 if (!$auth->isAuthenticated()) {
-    header('Location: /votingsystem/');
+    header('Location: ' . BASE_PATH . '/');
     exit;
 }
 
@@ -990,7 +990,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <span></span>
                 <span></span>
             </button>
-            <a href="/votingsystem/dashboard" class="logo">VOTE<span class="highlight">BOX</span></a>
+            <a href="<?php echo BASE_PATH; ?>/dashboard" class="logo">VOTE<span class="highlight">BOX</span></a>
         </div>
         <div class="topbar-center">
             <?php if ($isVotingOpen): ?>
@@ -1007,7 +1007,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                     <div class="user-role">Voter</div>
                 </div>
             </div>
-            <a href="/votingsystem/logout" class="logout-btn">Logout</a>
+            <a href="<?php echo BASE_PATH; ?>/logout" class="logout-btn">Logout</a>
         </div>
     </header>
 
@@ -1141,7 +1141,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                         </div>
 
                         <?php if (!$hasVoted): ?>
-                            <form method="POST" action="/votingsystem/dashboard?tab=vote" class="voting-form">
+                            <form method="POST" action="<?php echo BASE_PATH; ?>/dashboard?tab=vote" class="voting-form">
                                 <input type="hidden" name="action" value="cast_vote">
                                 <input type="hidden" name="position_id" value="<?php echo $position['id']; ?>">
                                 
@@ -1311,7 +1311,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <div class="card">
                     <h2>Update Profile</h2>
                     <?php if ($currentUser): ?>
-                    <form method="POST" action="/votingsystem/dashboard?tab=profile">
+                    <form method="POST" action="<?php echo BASE_PATH; ?>/dashboard?tab=profile">
                         <input type="hidden" name="action" value="update_profile">
                         
                         <div class="form-group">

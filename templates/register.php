@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $success = $result['message'];
             } else {
                 // Auto-logged in
-                header('Location: /votingsystem/dashboard');
+                header('Location: ' . BASE_PATH . '/dashboard');
                 exit;
             }
         } else {
@@ -78,7 +78,7 @@ ob_start();
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="/votingsystem/register" autocomplete="off">
+        <form method="POST" action="<?php echo BASE_PATH; ?>/register" autocomplete="off">
             <div class="form-group">
                 <label for="full_name">Full Name</label>
                 <input type="text" id="full_name" name="full_name" autocomplete="off" required>
@@ -137,7 +137,7 @@ ob_start();
         </form>
         
         <p style="margin-top: 20px; text-align: center;">
-            Already registered? <a href="/votingsystem/" class="highlight">Login here</a>
+            Already registered? <a href="<?php echo BASE_PATH; ?>/" class="highlight">Login here</a>
         </p>
     </div>
 </div>
