@@ -1,4 +1,6 @@
-<?php
+﻿<?php
+require_once __DIR__ . '/includes/init.php';
+
 use Src\Auth\Auth;
 use Src\Models\Position;
 use Src\Models\Candidate;
@@ -8,7 +10,7 @@ use Src\Models\User;
 
 $auth = new Auth();
 if (!$auth->isAuthenticated()) {
-    header('Location: ' . BASE_PATH . '/');
+    header('Location: index.php');
     exit;
 }
 
@@ -990,11 +992,11 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <span></span>
                 <span></span>
             </button>
-            <a href="<?php echo BASE_PATH; ?>/dashboard" class="logo">VOTE<span class="highlight">BOX</span></a>
+            <a href="dashboard.php" class="logo">VOTE<span class="highlight">BOX</span></a>
         </div>
         <div class="topbar-center">
             <?php if ($isVotingOpen): ?>
-                <span class="voting-status open">🗳️ Voting is OPEN</span>
+                <span class="voting-status open">ðŸ—³ï¸ Voting is OPEN</span>
             <?php else: ?>
                 <span class="voting-status closed">Voting is Closed</span>
             <?php endif; ?>
@@ -1007,7 +1009,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                     <div class="user-role">Voter</div>
                 </div>
             </div>
-            <a href="<?php echo BASE_PATH; ?>/logout" class="logout-btn">Logout</a>
+            <a href="logout.php" class="logout-btn">Logout</a>
         </div>
     </header>
 
@@ -1114,7 +1116,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                         <div class="progress-items">
                             <?php foreach ($votingProgress as $prog): ?>
                                 <span class="progress-item <?php echo $prog['has_voted'] ? 'completed' : 'pending'; ?>">
-                                    <?php echo $prog['has_voted'] ? '✓' : '○'; ?> <?php echo htmlspecialchars($prog['position_title']); ?>
+                                    <?php echo $prog['has_voted'] ? 'âœ“' : 'â—‹'; ?> <?php echo htmlspecialchars($prog['position_title']); ?>
                                 </span>
                             <?php endforeach; ?>
                         </div>
@@ -1136,12 +1138,12 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                                 <p class="vote-info">You can vote for <strong><?php echo $position['max_votes']; ?></strong> candidate(s)</p>
                             </div>
                             <?php if ($hasVoted): ?>
-                                <span class="badge badge-success">✓ Voted</span>
+                                <span class="badge badge-success">âœ“ Voted</span>
                             <?php endif; ?>
                         </div>
 
                         <?php if (!$hasVoted): ?>
-                            <form method="POST" action="<?php echo BASE_PATH; ?>/dashboard?tab=vote" class="voting-form">
+                            <form method="POST" action="dashboard.php?tab=vote" class="voting-form">
                                 <input type="hidden" name="action" value="cast_vote">
                                 <input type="hidden" name="position_id" value="<?php echo $position['id']; ?>">
                                 
@@ -1158,7 +1160,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                                                 </div>
                                                 <?php if ($candidate['platform']): ?>
                                                     <p class="platform"><?php echo htmlspecialchars(substr($candidate['platform'], 0, 150)) . '...'; ?></p>
-                                                    <a href="?tab=candidates&id=<?php echo $candidate['id']; ?>" class="view-more">View Full Profile →</a>
+                                                    <a href="?tab=candidates&id=<?php echo $candidate['id']; ?>" class="view-more">View Full Profile â†’</a>
                                                 <?php endif; ?>
                                             </div>
                                         </label>
@@ -1169,7 +1171,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                             </form>
                         <?php else: ?>
                             <div class="voted-message">
-                                <p>✓ Thank you for voting for <strong><?php echo htmlspecialchars($position['title']); ?></strong>!</p>
+                                <p>âœ“ Thank you for voting for <strong><?php echo htmlspecialchars($position['title']); ?></strong>!</p>
                                 <p class="small">Your vote has been securely recorded.</p>
                             </div>
                         <?php endif; ?>
@@ -1190,7 +1192,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 $candidate = $candidateModel->getById($viewCandidateId);
                 if ($candidate): ?>
                     <div class="card candidate-detail">
-                        <a href="?tab=candidates" class="back-link">← Back to all candidates</a>
+                        <a href="?tab=candidates" class="back-link">â† Back to all candidates</a>
                         <div class="candidate-header-full">
                             <div>
                                 <h1><?php echo htmlspecialchars($candidate['full_name']); ?></h1>
@@ -1252,7 +1254,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
             <div class="page-header">
                 <h1>Election Results</h1>
                 <?php if ($isVotingOpen): ?>
-                    <p class="notice">⚠️ Voting is still in progress. Results shown are preliminary and may change.</p>
+                    <p class="notice">âš ï¸ Voting is still in progress. Results shown are preliminary and may change.</p>
                 <?php else: ?>
                     <p>Final election results after voting has ended.</p>
                 <?php endif; ?>
@@ -1311,7 +1313,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <div class="card">
                     <h2>Update Profile</h2>
                     <?php if ($currentUser): ?>
-                    <form method="POST" action="<?php echo BASE_PATH; ?>/dashboard?tab=profile">
+                    <form method="POST" action="dashboard.php?tab=profile">
                         <input type="hidden" name="action" value="update_profile">
                         
                         <div class="form-group">

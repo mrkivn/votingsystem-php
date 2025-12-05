@@ -264,11 +264,11 @@
             <div class="logo">VOTE<span class="highlight">BOX</span></div>
             <nav>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <a href="<?php echo BASE_PATH; ?>/dashboard">Dashboard</a>
-                    <a href="<?php echo BASE_PATH; ?>/logout" class="btn-secondary">Logout</a>
+                    <a href="dashboard.php">Dashboard</a>
+                    <a href="logout.php" class="btn-secondary">Logout</a>
                 <?php else: ?>
-                    <a href="<?php echo BASE_PATH; ?>/">Login</a>
-                    <a href="<?php echo BASE_PATH; ?>/register">Register</a>
+                    <a href="index.php">Login</a>
+                    <a href="register.php">Register</a>
                 <?php endif; ?>
             </nav>
         </header>

@@ -1,4 +1,6 @@
-<?php
+﻿<?php
+require_once __DIR__ . '/includes/init.php';
+
 use Src\Auth\Auth;
 use Src\Models\Position;
 use Src\Models\Candidate;
@@ -8,7 +10,7 @@ use Src\Models\Vote;
 
 $auth = new Auth();
 if (!$auth->isAuthenticated() || !$auth->isAdmin()) {
-    header('Location: ' . BASE_PATH . '/');
+    header('Location: index.php');
     exit;
 }
 
@@ -957,7 +959,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <span></span>
                 <span></span>
             </button>
-            <a href="<?php echo BASE_PATH; ?>/admin" class="logo">VOTE<span class="highlight">BOX</span></a>
+            <a href="admin.php" class="logo">VOTE<span class="highlight">BOX</span></a>
         </div>
         <div class="topbar-right">
             <div class="user-info">
@@ -967,7 +969,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                     <div class="user-role">Administrator</div>
                 </div>
             </div>
-            <a href="<?php echo BASE_PATH; ?>/logout" class="logout-btn">Logout</a>
+            <a href="logout.php" class="logout-btn">Logout</a>
         </div>
     </header>
 
@@ -1124,7 +1126,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <!-- Add Position Form -->
                 <div class="card">
                     <h2>Add New Position</h2>
-                    <form method="POST" action="<?php echo BASE_PATH; ?>/admin?tab=candidates">
+                    <form method="POST" action="admin.php?tab=candidates">
                         <input type="hidden" name="action" value="add_position">
                         <div class="form-group">
                             <label>Position Title *</label>
@@ -1151,7 +1153,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                 <!-- Add Candidate Form -->
                 <div class="card">
                     <h2>Add New Candidate</h2>
-                    <form method="POST" action="<?php echo BASE_PATH; ?>/admin?tab=candidates">
+                    <form method="POST" action="admin.php?tab=candidates">
                         <input type="hidden" name="action" value="add_candidate">
                         <div class="form-group">
                             <label>Position *</label>
@@ -1320,7 +1322,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
             <div class="grid-2">
                 <div class="card">
                     <h2>Create Voting Period</h2>
-                    <form method="POST" action="<?php echo BASE_PATH; ?>/admin?tab=voting_control">
+                    <form method="POST" action="admin.php?tab=voting_control">
                         <input type="hidden" name="action" value="create_voting_period">
                         <div class="form-group">
                             <label>Title *</label>

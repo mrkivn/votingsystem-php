@@ -1,6 +1,9 @@
 <?php
+require_once __DIR__ . '/includes/init.php';
+
 use Src\Auth\Auth;
 
+$auth = new Auth();
 $error = '';
 $success = '';
 
@@ -28,7 +31,6 @@ function validatePasswordStrength($password) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $auth = new Auth();
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
@@ -42,15 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($password !== $confirm_password) {
         $error = "Passwords do not match";
     } else {
-        // Default role is voter
         $result = $auth->register($email, $password, $full_name, 'voter');
 
         if ($result['success']) {
             if ($result['status'] === 'pending') {
                 $success = $result['message'];
             } else {
-                // Auto-logged in
-                header('Location: ' . BASE_PATH . '/dashboard');
+                header('Location: dashboard.php');
                 exit;
             }
         } else {
@@ -78,7 +78,7 @@ ob_start();
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="<?php echo BASE_PATH; ?>/register" autocomplete="off">
+        <form method="POST" action="register.php" autocomplete="off">
             <div class="form-group">
                 <label for="full_name">Full Name</label>
                 <input type="text" id="full_name" name="full_name" autocomplete="off" required>
@@ -105,7 +105,6 @@ ob_start();
                     </button>
                 </div>
                 
-                <!-- Password Strength Meter -->
                 <div class="password-strength-container" id="password-strength-container" style="margin-top: 10px; display: none;">
                     <div class="strength-meter">
                         <div class="strength-meter-fill" id="strength-meter-fill"></div>
@@ -133,11 +132,11 @@ ob_start();
                 <div id="password-match-indicator" style="margin-top: 5px; font-size: 0.85rem;"></div>
             </div>
 
-            <button type="submit" id="submit-btn" class="btn-primary" style="width: 100%;">Get Voter ID</button>
+            <button type="submit" class="btn-primary" style="width: 100%;">Get Voter ID</button>
         </form>
         
         <p style="margin-top: 20px; text-align: center;">
-            Already registered? <a href="<?php echo BASE_PATH; ?>/" class="highlight">Login here</a>
+            Already registered? <a href="index.php" class="highlight">Login here</a>
         </p>
     </div>
 </div>
@@ -165,24 +164,20 @@ ob_start();
         const strengthText = document.getElementById('strength-text');
         const requirementsDiv = document.getElementById('password-requirements');
         
-        // Hide everything if password is empty
         if (password.length === 0) {
             container.style.display = 'none';
             checkPasswordMatch();
             return;
         }
         
-        // Show the container when user starts typing
         container.style.display = 'block';
         
-        // Check individual requirements
         const hasLength = password.length >= 8;
         const hasUpper = /[A-Z]/.test(password);
         const hasLower = /[a-z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
         const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
         
-        // Build list of missing requirements
         let missingRequirements = [];
         if (!hasLength) missingRequirements.push('At least 8 characters');
         if (!hasUpper) missingRequirements.push('One uppercase letter');
@@ -190,30 +185,24 @@ ob_start();
         if (!hasNumber) missingRequirements.push('One number');
         if (!hasSpecial) missingRequirements.push('One special character (!@#$%^&*)');
         
-        // Display only the first missing requirement
         if (missingRequirements.length > 0) {
             requirementsDiv.innerHTML = `<div class="missing-req">✗ ${missingRequirements[0]}</div>`;
         } else {
             requirementsDiv.innerHTML = '';
         }
         
-        // Calculate strength score (0-5)
         let score = 0;
         if (hasLength) score++;
         if (hasUpper) score++;
         if (hasLower) score++;
         if (hasNumber) score++;
         if (hasSpecial) score++;
-        
-        // Extra points for longer passwords
         if (password.length >= 12) score += 0.5;
         if (password.length >= 16) score += 0.5;
         
-        // Update meter
         const percentage = (score / 6) * 100;
         meterFill.style.width = percentage + '%';
         
-        // Update color and text based on score
         if (score < 3) {
             meterFill.className = 'strength-meter-fill weak';
             strengthText.textContent = '⚠️ Weak password';
@@ -250,5 +239,5 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-require __DIR__ . '/layout.php';
+require __DIR__ . '/templates/layout.php';
 ?>
