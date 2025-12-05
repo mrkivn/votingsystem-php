@@ -1,5 +1,8 @@
 /vendor
 /node_modules
 .env
-firebase_credentials.json
-.vercel
+.DS_Store
+Thumbs.db
+*.log
+config/config.local.php
+

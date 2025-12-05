@@ -2,18 +2,26 @@
 
 namespace Src\Database;
 
+use PDO;
+use PDOException;
+
 class Database {
     private static $instance = null;
-    private $baseUrl;
-    private $apiKey;
+    private $connection;
 
     private function __construct() {
-        // Using the credentials provided by the user
-        $projectId = 'voting-b791c';
-        $this->apiKey = 'AIzaSyCauRjj874eNbMhVUwXVPPfEpC8sEMsaZE';
-        
-        // Standard Firebase Realtime Database URL format
-        $this->baseUrl = "https://voting-b791c-default-rtdb.asia-southeast1.firebasedatabase.app";
+        try {
+            require_once __DIR__ . '/../../config/config.php';
+            
+            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+            $this->connection = new PDO($dsn, DB_USER, DB_PASS);
+            
+            // Set PDO error mode to exception
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Database Connection Failed: " . $e->getMessage());
+        }
     }
 
     public static function getInstance() {
@@ -23,51 +31,43 @@ class Database {
         return self::$instance;
     }
 
-    public function getApiKey() {
-        return $this->apiKey;
+    public function getConnection() {
+        return $this->connection;
     }
 
-    // Generic request method
-    public function request($path, $method = 'GET', $data = null, $auth = true) {
-        $url = $this->baseUrl . '/' . ltrim($path, '/') . '.json';
-        
-        // Add auth token if available and requested
-        if ($auth && isset($_SESSION['user']['idToken'])) {
-            $url .= '?auth=' . $_SESSION['user']['idToken'];
+    public function query($sql, $params = []) {
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute($params);
+            return $stmt;
+        } catch (PDOException $e) {
+            error_log("Query Error: " . $e->getMessage());
+            return false;
         }
+    }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    public function fetchAll($sql, $params = []) {
+        $stmt = $this->query($sql, $params);
+        return $stmt ? $stmt->fetchAll() : [];
+    }
 
-        if ($method === 'POST') {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        } elseif ($method === 'PUT') {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        } elseif ($method === 'PATCH') {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        } elseif ($method === 'DELETE') {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        }
+    public function fetchOne($sql, $params = []) {
+        $stmt = $this->query($sql, $params);
+        return $stmt ? $stmt->fetch() : null;
+    }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json'
-        ]);
+    public function insert($sql, $params = []) {
+        $stmt = $this->query($sql, $params);
+        return $stmt ? $this->connection->lastInsertId() : false;
+    }
 
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
-        if (curl_errno($ch)) {
-            // Handle curl error
-            return null;
-        }
-        
-        curl_close($ch);
+    public function update($sql, $params = []) {
+        $stmt = $this->query($sql, $params);
+        return $stmt ? $stmt->rowCount() : false;
+    }
 
-        return json_decode($response, true);
+    public function delete($sql, $params = []) {
+        $stmt = $this->query($sql, $params);
+        return $stmt ? $stmt->rowCount() : false;
     }
 }

@@ -165,6 +165,94 @@
             font-size: 0.9rem;
             opacity: 0.7;
         }
+
+        /* Password Toggle Styles */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        /* Hide browser's built-in password reveal button (Edge, Chrome) */
+        .password-wrapper input::-ms-reveal,
+        .password-wrapper input::-ms-clear,
+        .password-wrapper input::-webkit-credentials-auto-fill-button {
+            display: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .password-toggle:hover {
+            opacity: 1;
+        }
+
+        /* Password Strength Meter Styles */
+        .strength-meter {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .strength-meter-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .strength-meter-fill.weak {
+            background: linear-gradient(90deg, #ff4d4d, #ff6b6b);
+        }
+
+        .strength-meter-fill.medium {
+            background: linear-gradient(90deg, #ffa64d, #ffb366);
+        }
+
+        .strength-meter-fill.strong {
+            background: linear-gradient(90deg, #4dff88, #66ffaa);
+        }
+
+        .strength-text {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .missing-label {
+            color: #888;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .missing-req {
+            color: #ff4d4d;
+            margin: 3px 0;
+            padding-left: 5px;
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -176,11 +264,11 @@
             <div class="logo">VOTE<span class="highlight">BOX</span></div>
             <nav>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <a href="/dashboard">Dashboard</a>
-                    <a href="/logout" class="btn-secondary">Logout</a>
+                    <a href="/votingsystem/dashboard">Dashboard</a>
+                    <a href="/votingsystem/logout" class="btn-secondary">Logout</a>
                 <?php else: ?>
-                    <a href="/">Login</a>
-                    <a href="/register">Register</a>
+                    <a href="/votingsystem/">Login</a>
+                    <a href="/votingsystem/register">Register</a>
                 <?php endif; ?>
             </nav>
         </header>
