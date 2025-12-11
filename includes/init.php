@@ -4,6 +4,9 @@
 // Load configuration
 require_once __DIR__ . '/../config/config.php';
 
+// Force UTF-8 encoding
+header('Content-Type: text/html; charset=utf-8');
+
 // Manual Autoloader
 spl_autoload_register(function ($class) {
     $prefix = 'Src\\';

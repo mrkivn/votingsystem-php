@@ -996,7 +996,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
         </div>
         <div class="topbar-center">
             <?php if ($isVotingOpen): ?>
-                <span class="voting-status open">ðŸ—³ï¸ Voting is OPEN</span>
+                <span class="voting-status open">Voting is OPEN</span>
             <?php else: ?>
                 <span class="voting-status closed">Voting is Closed</span>
             <?php endif; ?>
@@ -1138,7 +1138,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                                 <p class="vote-info">You can vote for <strong><?php echo $position['max_votes']; ?></strong> candidate(s)</p>
                             </div>
                             <?php if ($hasVoted): ?>
-                                <span class="badge badge-success">âœ“ Voted</span>
+                                <span class="badge badge-success">&check; Voted</span>
                             <?php endif; ?>
                         </div>
 
@@ -1171,7 +1171,7 @@ $currentUserName = htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION[
                             </form>
                         <?php else: ?>
                             <div class="voted-message">
-                                <p>âœ“ Thank you for voting for <strong><?php echo htmlspecialchars($position['title']); ?></strong>!</p>
+                                <p>&check; Thank you for voting for <strong><?php echo htmlspecialchars($position['title']); ?></strong>!</p>
                                 <p class="small">Your vote has been securely recorded.</p>
                             </div>
                         <?php endif; ?>

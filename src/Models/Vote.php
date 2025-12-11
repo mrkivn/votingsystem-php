@@ -17,6 +17,16 @@ class Vote {
             return ['success' => false, 'error' => 'You have already voted for this position.'];
         }
 
+        // Verify user exists and is approved (double check)
+        $user = $this->db->fetchOne(
+            "SELECT status FROM users WHERE id = ?", 
+            [$userId]
+        );
+
+        if (!$user || $user['status'] !== 'approved') {
+            return ['success' => false, 'error' => 'Your account is not approved to vote.'];
+        }
+
         // Verify candidate belongs to position
         $candidate = $this->db->fetchOne(
             "SELECT id, position_id FROM candidates WHERE id = ? AND position_id = ? AND active = 1",
