@@ -42,6 +42,11 @@ class Database {
             return $stmt;
         } catch (PDOException $e) {
             error_log("Query Error: " . $e->getMessage());
+            // For debugging purposes on InfinityFree
+            if (ini_get('display_errors')) {
+                echo "Query Failed: " . $e->getMessage() . "<br>";
+                echo "SQL: " . $sql . "<br>";
+            }
             return false;
         }
     }

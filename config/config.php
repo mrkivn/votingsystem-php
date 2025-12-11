@@ -12,3 +12,11 @@ define('APP_NAME', 'Voting System');
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Set Timezone
+date_default_timezone_set('Asia/Manila');
+
+// Error Reporting (Enable for debugging on InfinityFree)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
